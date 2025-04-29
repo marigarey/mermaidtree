@@ -252,6 +252,7 @@ export class FlowDB implements DiagramDB {
       labelType: 'text',
       classes: [],
       isUserDefinedId: false,
+      interpolate: this.edges.defaultInterpolate,
     };
     log.info('abc78 Got edge...', edge);
     const linkTextObj = type.text;
@@ -314,11 +315,11 @@ You have to call mermaid.initialize.`
 
     log.info('addLink', _start, _end, id);
 
-    // for a group syntax like A e1@--> B & C, only the first edge should have an the userDefined id
+    // for a group syntax like A e1@--> B & C, only the first edge should have a userDefined id
     // the rest of the edges should have auto generated ids
     for (const start of _start) {
       for (const end of _end) {
-        //use the id only for last node in _start and and first node in _end
+        //use the id only for last node in _start and first node in _end
         const isLastStart = start === _start[_start.length - 1];
         const isFirstEnd = end === _end[0];
         if (isLastStart && isFirstEnd) {
@@ -1124,6 +1125,7 @@ You have to call mermaid.initialize.`
         look: config.look,
         animate: rawEdge.animate,
         animation: rawEdge.animation,
+        curve: rawEdge.interpolate || this.edges.defaultInterpolate || config.flowchart?.curve,
       };
 
       edges.push(edge);
